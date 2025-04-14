@@ -1,0 +1,26 @@
+universe = docker
+docker_image = docker://bobthebunny/reft_alignez:test_warm_init
+
+executable = exec.sh
+transfer_input_files = reft_demo.py, .hf_token
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+
+NAME = condor_outs/job_$(Cluster)_$(Process)
+
+log = $(NAME).log
+error = $(NAME).err
+output = $(NAME).out
+
+request_cpus = 1
+
+request_gpus = 1
++WantGPULab = true
++GPUJobLength = "medium"
+gpus_minimum_memory = 22000 
+Requirements = (Target.CUDADriverVersion >= 12.4)
+
+request_memory = 30GB
+request_disk = 30GB
+
+queue 1

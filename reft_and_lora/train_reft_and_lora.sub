@@ -1,0 +1,25 @@
+container_image = container.sif
+
+executable = reft_and_lora_exec.sh
+transfer_input_files = reft_and_lora.py, .hf_token
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+
+NAME = condor_outs/job_$(Cluster)_$(Process)
+
+log = $(NAME).log
+error = $(NAME).err
+output = $(NAME).out
+
+request_cpus = 1
+
+request_gpus = 1
++WantGPULab = true
++GPUJobLength = "medium"
+gpus_minimum_memory = 80000 
+Requirements = (Target.CUDADriverVersion >= 12.4)
+
+request_memory = 100GB
+request_disk = 100GB
+
+queue 1

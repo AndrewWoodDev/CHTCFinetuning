@@ -1,0 +1,14 @@
+Bootstrap: docker
+From: continuumio/miniconda3:24.4.0-0
+
+# Create the conda environment and install necessary packages
+%post
+        . activate
+        conda create -y -n reft python=3.10
+        conda activate reft
+	/bin/bash -c "source activate reft && \
+	conda install -y nvidia/label/cuda-12.4.0::cuda && \
+	conda install -y transformers pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c nvidia && \
+	pip install accelerate bitsandbytes nnsight pyreft tqdm && \
+	pip install git+https://github.com/davidbau/baukit && \
+	pip install peft"
